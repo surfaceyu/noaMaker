@@ -41,6 +41,11 @@ const doAdd = async (site: models.BookSite) => {
   updateSitesData()
 }
 
+const doEdit = async (row: models.BookSite) => {
+  await EditSites(row)
+  updateSitesData()
+}
+
 const dialogFormVisible = ref(false);
 provide('dialogFormVisible', dialogFormVisible);
 const dialogFormEditVisible = ref(false);
@@ -72,7 +77,7 @@ provide('dialogFormEditVisible', dialogFormEditVisible);
     </el-table-column>
   </el-table>
   <DialogSiteAdd :data="filterTableData" :submit="doAdd" />
-  <DialogSiteEdit :data="filterTableData" :submit="updateSitesData" :index="editIndex" />
+  <DialogSiteEdit :data="filterTableData" :submit="doEdit" :index="editIndex" />
 </template>
 
 <style scoped>

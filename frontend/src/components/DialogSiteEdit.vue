@@ -57,7 +57,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     formEl.validate((valid) => {
         if (valid) {
             if (dialogFormVisible) dialogFormVisible.value = false;
-            doEdit(form.value)
+            dialogArrayData.submit(form.value)
             return true;
         } else {
             console.log('error submit!')
@@ -66,10 +66,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 }
 
-const doEdit = async (row: models.BookSite) => {
-  await EditSites(row)
-  dialogArrayData.submit()
-}
 </script>
 
 <template>
