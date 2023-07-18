@@ -5,7 +5,7 @@ import { Collection } from '@element-plus/icons-vue'
 
 const form = defineProps({
     data: {
-    type: models.BookSiteUri,
+    type: Object as () => models.BookSiteUri,
     required: true
   }, 
 })
