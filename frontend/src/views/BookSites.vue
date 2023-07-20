@@ -55,8 +55,13 @@ const doAdd = async (site: models.BookSite) => {
 }
 
 const doEdit = async (row: models.BookSite) => {
-    await EditSites(row)
-    updateSitesData()
+    row.checkStep = 0;
+    await EditSites(row);
+    updateSitesData();
+}
+
+const stepDisable = (row: models.BookSite) => {
+        return row.checkStep >= 3
 }
 
 updateSitesData()
@@ -72,7 +77,11 @@ updateSitesData()
         <el-table-column label="网址" prop="uri" width="300" />
         <el-table-column label="状态">
             <template #default="scope">
-                <el-tag :type="siteStepType[scope.row.checkStep] || 'success'" disable-transitions>{{ siteStepText[scope.row.checkStep] }}</el-tag>
+                <el-tag
+                    :type="siteStepType[scope.row.checkStep] || 'success'"
+                    disable-transitions>
+                    {{ siteStepText[scope.row.checkStep] }}
+                </el-tag>
             </template>
         </el-table-column>
         <el-table-column align="right" width="240">
@@ -87,7 +96,7 @@ updateSitesData()
                 </el-row>
             </template>
             <template #default="scope">
-                <el-button size="small" type="primary" :icon="Edit"
+                <el-button size="small" type="primary" :icon="Edit" :disabled="stepDisable(scope.row)"
                     @click="handleCheck(scope.$index, scope.row)">测试</el-button>
                 <el-button size="small" type="success" :icon="Check"
                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>

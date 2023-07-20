@@ -118,7 +118,7 @@ const resetTags = () => {
 }
 
 const stepDisable = computed(() => {
-    return props.data.checkStep >= 4
+    return props.data.checkStep >= 3
 })
 
 const active = computed(() => {
