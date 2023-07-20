@@ -1,19 +1,13 @@
-# README
+# 小说音频制作工厂
 
-## About
+## 关于
 
-This is the official Wails Vue-TS template.
+这是一个制作有声小说音频的软件。
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+包含小说网址爬虫、小说编辑、音频制作等功能
 
-## Live Development
-
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
-
-## Building
-
-To build a redistributable, production mode package, use `wails build`.
+## Features
+- [x] 网站源管理-新增、编辑
+- [x] 网站源管理-校验
+- [ ] 书籍管理
+- [ ] 音频管理

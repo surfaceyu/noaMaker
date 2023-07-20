@@ -89,6 +89,22 @@ export namespace backend {
 
 export namespace models {
 	
+	export class Book {
+	    author: string;
+	    bookName: string;
+	    bookId: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Book(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.author = source["author"];
+	        this.bookName = source["bookName"];
+	        this.bookId = source["bookId"];
+	    }
+	}
 	export class BookSiteContentUri {
 	    uri: string;
 	    content: string;
@@ -151,6 +167,7 @@ export namespace models {
 	    searchUrl: BookSiteUri;
 	    chapterUrl: BookSiteChapterUri;
 	    contentUrl: BookSiteContentUri;
+	    checkStep: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new BookSite(source);
@@ -163,6 +180,7 @@ export namespace models {
 	        this.searchUrl = this.convertValues(source["searchUrl"], BookSiteUri);
 	        this.chapterUrl = this.convertValues(source["chapterUrl"], BookSiteChapterUri);
 	        this.contentUrl = this.convertValues(source["contentUrl"], BookSiteContentUri);
+	        this.checkStep = source["checkStep"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -185,6 +203,39 @@ export namespace models {
 	}
 	
 	
+	
+	export class Chapter {
+	    bookId: string;
+	    chapterId: string;
+	    chapterName: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Chapter(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.bookId = source["bookId"];
+	        this.chapterId = source["chapterId"];
+	        this.chapterName = source["chapterName"];
+	    }
+	}
+	export class Content {
+	    bookId: string;
+	    chapterId: string;
+	    content: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Content(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.bookId = source["bookId"];
+	        this.chapterId = source["chapterId"];
+	        this.content = source["content"];
+	    }
+	}
 
 }
 

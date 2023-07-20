@@ -6,6 +6,7 @@ type BookSite struct {
 	SearchUrl  BookSiteUri        `json:"searchUrl"`  // 书源-搜索解析
 	ChapterUrl BookSiteChapterUri `json:"chapterUrl"` // 书源-章节解析
 	ContentUrl BookSiteContentUri `json:"contentUrl"` // 书源-内容解析
+	CheckStep  int                `json:"checkStep"`  // 书源-检测步骤 最大为3
 }
 
 type BookSiteUri struct {
@@ -28,4 +29,22 @@ type BookSiteChapterUri struct {
 type BookSiteContentUri struct {
 	Uri     string `json:"uri"`
 	Content string `json:"content"` // 章节内容
+}
+
+type Book struct {
+	Author   string `json:"author"`   // 书本-作者
+	BookName string `json:"bookName"` // 书本-名称
+	BookId   string `json:"bookId"`   // 书本-书本Id
+}
+
+type Chapter struct {
+	BookId      string `json:"bookId"`      // 书本-书本Id
+	ChapterId   string `json:"chapterId"`   // 章节Id
+	ChapterName string `json:"chapterName"` // 章节名称
+}
+
+type Content struct {
+	BookId    string `json:"bookId"`    // 书本-书本Id
+	ChapterId string `json:"chapterId"` // 章节Id
+	Content   string `json:"content"`   // 章节内容
 }
