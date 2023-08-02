@@ -10,7 +10,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "semicolon": true,
     "lib": [
       "ESNext",
       "DOM"
@@ -18,8 +17,10 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
+      "@/*": ["./*"],
       "@components/*": ["src/components/*"],
       "@views/*": ["src/views/*"],
+      "@scripts/*": ["src/scripts/*"],
       "@assets/*": ["src/assets/*"],
       "@wailsjs/*": ["wailsjs/*"]
     }

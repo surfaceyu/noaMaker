@@ -27,6 +27,11 @@ export default defineConfig({
         find: '@assets',
         replacement: resolve(__dirname, "src/assets"),
       },
+      {
+        find: '@scripts',
+        replacement: resolve(__dirname, "src/scripts"),
+      },
+      
     ]
   }
 })

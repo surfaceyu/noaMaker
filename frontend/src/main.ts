@@ -3,5 +3,7 @@ import App from './views/App.vue'
 import { router } from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import '@wangeditor/editor/dist/css/style.css'
 
-createApp(App).use(ElementPlus).use(router).mount('#app')
+const app = createApp(App).use(ElementPlus).use(router)
+app.mount('#app')

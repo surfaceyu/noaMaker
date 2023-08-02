@@ -3,3 +3,5 @@ node_modules
 frontend/dist
 cache.db
 cache.db
+*.mp3
+*/package-lock.json
