@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeUnmount, ref, shallowRef, watch } from 'vue';
+import { onBeforeUnmount, reactive, ref, shallowRef, watch } from 'vue';
 import { Editor} from '@wangeditor/editor-for-vue'
 import { insertNewlineBeforeFourSpaces, splitStringByBr } from '@scripts/strings'
 import { speakers } from '@scripts/editorHelper'
@@ -33,6 +33,15 @@ const editorConfig = {
     MENU_CONF: {}
 }
 
+// 按钮组 分割 试听 合成
+// {type, text, loading, onClick}
+const buttons = reactive([
+    { type: 'primary', text: '分割', loading: false, onClick: handleSplit },
+    { type: 'info', text: '试听', loading: false, onClick: handleAudioSample },
+    { type: 'success', text: '合成', loading: false, onClick: handleAudioSynthesizing },
+])
+
+
 const handleCreated = (editor: any) => {
     editorRef.value = editor // 记录 editor 实例，重要！
 }
@@ -55,35 +64,35 @@ function handleSplit() {
 }
 
 async function handleAudioSample() {
+    buttons[1].loading = true
+    buttons[1].text = "试听中"
     console.log(splitStringByBr(editorRef.value.getSelectionText()))
-    // await SpeakSample(speakers[0], splitStringByBr(editorRef.value.getSelectionText()))
-    // sampleAudio 类型是HTMLAudioElement
-    // if (sampleAudio.value) {        
-    //     // 停止播放
-    //     sampleAudio.value.pause(); 
-    //     sampleAudio.value.currentTime = 0; 
-    // }
-    // sampleAudio 加载"../../../sample.mp3" 并播放
-    sampleAudio.value = new Audio();
-    sampleAudio.value.src = "./assets/sample.mp3"
-    sampleAudio.value.play(); 
+    setTimeout(() => {
+        buttons[1].loading = false
+        buttons[1].text = "试听"    
+    }, 3000);
 }
 
 async function handleAudioSynthesizing() {
-    // console.log(splitStringByBr(editorRef.value.getText()));
     if (!props.name || !props.chapter) {
         return
     }
+    buttons[2].loading = true
+    buttons[2].text = "合成中"
     await Text2Speak(speakers[0], props.name, props.chapter, splitStringByBr(editorRef.value.getText()))
+    buttons[2].loading = false
+    buttons[2].text = "合成"
 }
 </script>
 
 <template>
     <el-row :gutter="20">
         <el-col class="mbt-10" :span="8" :offset="16">
-            <el-button type="primary" size="default" @click="handleSplit">分割</el-button>
+            <el-button v-for="it in buttons" :type="it.type" size="default" :loading="it.loading" @click="it.onClick">{{ it.text }}</el-button>
+            
+            <!-- <el-button type="primary" size="default" @click="handleSplit">分割</el-button>
             <el-button type="info" size="default" @click="handleAudioSample">试听</el-button>
-            <el-button type="success" size="default" @click="handleAudioSynthesizing">合成</el-button>
+            <el-button type="success" size="default" @click="handleAudioSynthesizing">合成</el-button> -->
         </el-col>
     </el-row>
 
