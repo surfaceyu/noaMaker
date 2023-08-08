@@ -1,8 +1,8 @@
 package backend
 
 import (
-	"github.com/surfaceyu/myproject/backend/dao"
-	"github.com/surfaceyu/myproject/backend/models"
+	"github.com/surfaceyu/noaMaker/backend/dao"
+	"github.com/surfaceyu/noaMaker/backend/models"
 )
 
 func init() {
@@ -47,7 +47,7 @@ func (g *BookSitesHandler) DelSites(bs models.BookSite) {
 func (g *BookSitesHandler) GetBooks() []Book {
 	return []Book{
 		{Name: "大师兄不在家", Author: "咸鱼", Desc: "一本测试的小说", Sites: []models.BookSite{
-			{Uri: "www.hhhhhzzz.com"},
+			{Uri: "www.hhhhh_zzz.com"},
 		}},
 		{Name: "小师妹不在家", Author: "宝剑", Desc: "宝剑亚甲基地方还等哈来算的话拉丁化拉客的火辣的你拉省的回答克里斯蒂哈拉省的啦DHL", Sites: []models.BookSite{
 			{Uri: "www.aaaaaaaaaaaaaa.com"},

@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gocolly/colly/v2"
-	"github.com/surfaceyu/myproject/backend/models"
+	"github.com/surfaceyu/noaMaker/backend/models"
 )
 
 func extractHref(uri string, reg string) string {

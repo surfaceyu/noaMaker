@@ -1,9 +1,9 @@
 package backend
 
 import (
-	"github.com/surfaceyu/myproject/backend/dao"
-	"github.com/surfaceyu/myproject/backend/driver"
-	"github.com/surfaceyu/myproject/backend/models"
+	"github.com/surfaceyu/noaMaker/backend/dao"
+	"github.com/surfaceyu/noaMaker/backend/driver"
+	"github.com/surfaceyu/noaMaker/backend/models"
 )
 
 func init() {

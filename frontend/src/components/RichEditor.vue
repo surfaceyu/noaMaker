@@ -57,15 +57,16 @@ function handleSplit() {
 async function handleAudioSample() {
     console.log(splitStringByBr(editorRef.value.getSelectionText()))
     // await SpeakSample(speakers[0], splitStringByBr(editorRef.value.getSelectionText()))
-    // // sampleAudio 类型是HTMLAudioElement
+    // sampleAudio 类型是HTMLAudioElement
     // if (sampleAudio.value) {        
     //     // 停止播放
     //     sampleAudio.value.pause(); 
     //     sampleAudio.value.currentTime = 0; 
     // }
-    // // sampleAudio 加载"../../../sample.mp3" 并播放
-    // sampleAudio.value = new Audio("../assets/sample.mp3"); 
-    // sampleAudio.value.play(); 
+    // sampleAudio 加载"../../../sample.mp3" 并播放
+    sampleAudio.value = new Audio();
+    sampleAudio.value.src = "./assets/sample.mp3"
+    sampleAudio.value.play(); 
 }
 
 async function handleAudioSynthesizing() {

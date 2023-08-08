@@ -3,7 +3,7 @@ package driver
 import (
 	"testing"
 
-	"github.com/surfaceyu/myproject/backend/models"
+	"github.com/surfaceyu/noaMaker/backend/models"
 )
 
 var bookSite = models.BookSite{

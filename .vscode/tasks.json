@@ -33,7 +33,7 @@
         "-gcflags",
         "all=-N -l",
         "-o",
-        "build/bin/myproject.exe"
+        "build/bin/noaMaker.exe"
       ]
     },
     {
@@ -68,7 +68,7 @@
         "-gcflags",
         "all=-N -l",
         "-o",
-        "build/bin/myproject.exe"
+        "build/bin/noaMaker.exe"
       ]
     },
     {
@@ -103,7 +103,7 @@
         "-gcflags",
         "all=-N -l",
         "-o",
-        "build/bin/myproject.exe"
+        "build/bin/noaMaker.exe"
       ],
       "dependsOn": ["npm run build"]
     },
@@ -163,7 +163,7 @@
         "--listen=:2345",
         "--api-version=2",
         "exec",
-        "${workspaceFolder}/build/bin/myproject.exe"
+        "${workspaceFolder}/build/bin/noaMaker.exe"
       ],
       "isBackground": true
     },

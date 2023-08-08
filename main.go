@@ -3,7 +3,7 @@ package main
 import (
 	"embed"
 
-	"github.com/surfaceyu/myproject/backend"
+	"github.com/surfaceyu/noaMaker/backend"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"

@@ -1,4 +1,4 @@
-module github.com/surfaceyu/myproject
+module github.com/surfaceyu/noaMaker
 
 go 1.18
 

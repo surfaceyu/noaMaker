@@ -1,6 +1,6 @@
 package dao
 
-import "github.com/surfaceyu/myproject/backend/models"
+import "github.com/surfaceyu/noaMaker/backend/models"
 
 const bookSitesKey = "bookSites"
 
