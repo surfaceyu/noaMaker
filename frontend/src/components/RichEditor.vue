@@ -34,11 +34,24 @@ const editorConfig = {
 }
 
 // 按钮组 分割 试听 合成
+const buttonsText = [
+    {
+        custom: "分割",
+    },
+    {
+        custom: "试听",
+        loading: "试听中",
+    },
+    {
+        custom: "合成",
+        loading: "合成中",
+    },
+]
 // {type, text, loading, onClick}
 const buttons = reactive([
-    { type: 'primary', text: '分割', loading: false, onClick: handleSplit },
-    { type: 'info', text: '试听', loading: false, onClick: handleAudioSample },
-    { type: 'success', text: '合成', loading: false, onClick: handleAudioSynthesizing },
+    { type: 'primary', text: buttonsText[0].custom, loading: false, onClick: handleSplit },
+    { type: 'info', text: buttonsText[1].custom, loading: false, onClick: handleAudioSample },
+    { type: 'success', text: buttonsText[2].custom, loading: false, onClick: handleAudioSynthesizing },
 ])
 
 
@@ -65,11 +78,13 @@ function handleSplit() {
 
 async function handleAudioSample() {
     buttons[1].loading = true
-    buttons[1].text = "试听中"
+    if (buttonsText[1].loading) {
+        buttons[1].text = buttonsText[1]!.loading
+    }
     console.log(splitStringByBr(editorRef.value.getSelectionText()))
     setTimeout(() => {
         buttons[1].loading = false
-        buttons[1].text = "试听"    
+        buttons[1].text = buttonsText[1].custom
     }, 3000);
 }
 
