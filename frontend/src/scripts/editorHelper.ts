@@ -1,6 +1,5 @@
 import { Boot, IDomEditor, IButtonMenu } from '@wangeditor/editor'
 import { DomEditor } from '@wangeditor/core'
-import { log } from 'console'
 
 function withParagraph<T extends IDomEditor>(editor: T): T { 
     const { insertBreak } = editor // 获取当前 editor API

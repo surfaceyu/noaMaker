@@ -13,3 +13,7 @@ export function SpeakSample(arg1, arg2) {
 export function Text2Speak(arg1, arg2, arg3, arg4) {
   return window['go']['backend']['SpeakerHandler']['Text2Speak'](arg1, arg2, arg3, arg4);
 }
+
+export function Text2Speech(arg1, arg2, arg3, arg4, arg5) {
+  return window['go']['backend']['SpeakerHandler']['Text2Speech'](arg1, arg2, arg3, arg4, arg5);
+}

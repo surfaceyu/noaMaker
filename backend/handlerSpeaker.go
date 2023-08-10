@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/samber/lo"
 	"github.com/surfaceyu/edge-tts-go/edgeTTS"
 	"github.com/surfaceyu/noaMaker/backend/helper"
 )
@@ -53,6 +54,21 @@ func (sp *SpeakerHandler) Text2Speak(voice string, name string, title string, co
 	args := edgeTTS.Args{
 		Voice:      helper.SpeakerShortName(voice),
 		WriteMedia: fmt.Sprintf("./out/%s/%s.mp3", name, title),
+	}
+	tts := edgeTTS.NewTTS(args)
+	for _, v := range contents {
+		speaker, text := sp.splitSpeaker(v)
+		tts.AddTextWithVoice(text, speaker)
+	}
+	tts.Speak()
+}
+
+func (sp *SpeakerHandler) Text2Speech(voice string, rate int, vol int, path string, contents []string) {
+	args := edgeTTS.Args{
+		Voice:      helper.SpeakerShortName(voice),
+		WriteMedia: lo.If(path != "", path).Else("./out/tmp.mp3"),
+		Rate:       lo.If(rate < 0, fmt.Sprintf("%d%%", rate)).Else(fmt.Sprintf("+%d%%", rate)),
+		Volume:     lo.If(vol < 0, fmt.Sprintf("%d%%", vol)).Else(fmt.Sprintf("+%d%%", vol)),
 	}
 	tts := edgeTTS.NewTTS(args)
 	for _, v := range contents {

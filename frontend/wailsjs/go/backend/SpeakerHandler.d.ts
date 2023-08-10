@@ -6,3 +6,5 @@ export function DeleteSpeakSample():Promise<void>;
 export function SpeakSample(arg1:string,arg2:Array<string>):Promise<void>;
 
 export function Text2Speak(arg1:string,arg2:string,arg3:string,arg4:Array<string>):Promise<void>;
+
+export function Text2Speech(arg1:string,arg2:number,arg3:number,arg4:string,arg5:Array<string>):Promise<void>;
