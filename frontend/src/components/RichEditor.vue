@@ -3,7 +3,7 @@ import { onBeforeUnmount, reactive, ref, shallowRef, watch } from 'vue';
 import { Editor} from '@wangeditor/editor-for-vue'
 import { insertNewlineBeforeFourSpaces, splitStringByBr } from '@scripts/strings'
 import { speakers } from '@scripts/editorHelper'
-import { SpeakSample, DeleteSpeakSample, Text2Speak } from "@wailsjs/go/backend/SpeakerHandler";
+import { SpeakSample, DeleteSpeakSample, Text2Speak, Text2Speech } from "@wailsjs/go/backend/SpeakerHandler";
 
 const props = defineProps({
     name: String,
@@ -78,14 +78,12 @@ function handleSplit() {
 
 async function handleAudioSample() {
     buttons[1].loading = true
-    if (buttonsText[1].loading) {
-        buttons[1].text = buttonsText[1]!.loading
-    }
-    console.log(splitStringByBr(editorRef.value.getSelectionText()))
-    setTimeout(() => {
-        buttons[1].loading = false
-        buttons[1].text = buttonsText[1].custom
-    }, 3000);
+    buttons[1].text = buttonsText[1].loading!
+    const sampleText = splitStringByBr(editorRef.value.getText()).filter((it, index) => it != "" && index <= 1)
+    await Text2Speech(speakers[0], 0, 0, "", sampleText)
+    await SpeakSample()
+    buttons[1].loading = false
+    buttons[1].text = buttonsText[1].custom
 }
 
 async function handleAudioSynthesizing() {
@@ -93,10 +91,10 @@ async function handleAudioSynthesizing() {
         return
     }
     buttons[2].loading = true
-    buttons[2].text = "合成中"
+    buttons[2].text = buttonsText[2].loading!
     await Text2Speak(speakers[0], props.name, props.chapter, splitStringByBr(editorRef.value.getText()))
     buttons[2].loading = false
-    buttons[2].text = "合成"
+    buttons[2].text = buttonsText[2].custom
 }
 </script>
 

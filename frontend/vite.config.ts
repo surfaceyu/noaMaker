@@ -31,7 +31,10 @@ export default defineConfig({
         find: '@scripts',
         replacement: resolve(__dirname, "src/scripts"),
       },
-      
+      {
+        find: '@backend',
+        replacement: resolve(__dirname, "wailsjs/go/backend"),
+      },
     ]
   }
 })

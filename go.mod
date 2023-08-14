@@ -3,6 +3,7 @@ module github.com/surfaceyu/noaMaker
 go 1.18
 
 require (
+	github.com/faiface/beep v1.1.0
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/wailsapp/wails/v2 v2.5.1
 )
@@ -17,9 +18,14 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/hajimehoshi/go-mp3 v0.3.0 // indirect
+	github.com/hajimehoshi/oto v0.7.1 // indirect
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
+	golang.org/x/exp/shiny v0.0.0-20230809150735-7b3493d9a819 // indirect
+	golang.org/x/image v0.5.0 // indirect
+	golang.org/x/mobile v0.0.0-20201217150744-e6ae53a27f4f // indirect
 	golang.org/x/term v0.10.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect

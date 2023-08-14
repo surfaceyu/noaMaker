@@ -22,7 +22,8 @@
       "@views/*": ["src/views/*"],
       "@scripts/*": ["src/scripts/*"],
       "@assets/*": ["src/assets/*"],
-      "@wailsjs/*": ["wailsjs/*"]
+      "@wailsjs/*": ["wailsjs/*"],
+      "@backend/*": ["wailsjs/go/backend/*"],
     }
   },
   "include": [

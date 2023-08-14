@@ -6,8 +6,8 @@ export function DeleteSpeakSample() {
   return window['go']['backend']['SpeakerHandler']['DeleteSpeakSample']();
 }
 
-export function SpeakSample(arg1, arg2) {
-  return window['go']['backend']['SpeakerHandler']['SpeakSample'](arg1, arg2);
+export function SpeakSample() {
+  return window['go']['backend']['SpeakerHandler']['SpeakSample']();
 }
 
 export function Text2Speak(arg1, arg2, arg3, arg4) {

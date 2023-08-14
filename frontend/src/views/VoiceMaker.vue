@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { reactive, ref, shallowRef } from 'vue';
 import { Editor} from '@wangeditor/editor-for-vue'
+import { ElMessageBox } from 'element-plus'
 
+import { splitStringByBr } from '@scripts/strings'
 import { speakers } from '@scripts/editorHelper'
-import { Text2Speech } from "@wailsjs/go/backend/SpeakerHandler";
+import { SpeakSample, Text2Speech } from "@wailsjs/go/backend/SpeakerHandler";
+import { OpenDir } from "@backend/FilePathHandler";
 
 const speakersLabels = ['晓晓(女声)', '晓伊(女童声)', '云健(男声)', '云希(男声)', '云夏(男童声)', '云扬(男声)']
 
@@ -23,9 +26,9 @@ const buttonsText = [
 ]
 // {type, text, loading, onClick}
 const buttons = reactive([
-    { type: 'warning', text: buttonsText[0].custom, loading: false, onClick: null },
+    { type: 'warning', text: buttonsText[0].custom, loading: false, onClick: handleAudioSample },
     { type: 'info', text: buttonsText[1].custom, loading: false, onClick: handleAudioSynthesizing },
-    { type: 'success', text: buttonsText[2].custom, loading: false, onClick: onLookUp },
+    { type: 'success', text: buttonsText[2].custom, loading: false, onClick: handleLookUp },
 ])
 
 const editorConfig = {
@@ -61,16 +64,43 @@ function handleCreated(editor: any) {
     editorRef.value = editor // 记录 editor 实例，重要！
 }
 
+async function handleAudioSample() {
+    const voiceText = editorRef.value.getText()
+    if (!voiceText || voiceText == "") {
+        showNullStringWarning()
+        return
+    }
+    buttons[0].loading = true
+    buttons[0].text = buttonsText[0].loading!
+    const sampleText = splitStringByBr(voiceText).filter((it, index) => it != "" && index <= 1)
+    await Text2Speech(voice.value, voiceRate.value, voiceVolume.value, "", sampleText)
+    await SpeakSample()
+    buttons[0].loading = false
+    buttons[0].text = buttonsText[0].custom
+}
+
 async function handleAudioSynthesizing() {
+    const voiceText = editorRef.value.getText()
+    if (!voiceText || voiceText == "") {
+        showNullStringWarning()
+        return
+    }
     buttons[1].loading = true
     buttons[1].text = buttonsText[1].loading!
-    await Text2Speech(voice.value, voiceRate.value, voiceVolume.value, "", ["你好 你好 你好 你好"])
+    await Text2Speech(voice.value, voiceRate.value, voiceVolume.value, `./out/tmp/${Date.toString()}.mp3`, splitStringByBr(voiceText))
     buttons[1].loading = false
     buttons[1].text = buttonsText[1].custom
 }
 
-function onLookUp() {    
-    result.value = `${voice.value}  ${transVoiceNum(voiceRate.value)}  ${transVoiceNum(voiceVolume.value)}`
+async function handleLookUp() {    
+    await OpenDir("")
+}
+
+function showNullStringWarning() {
+  ElMessageBox.alert('转换文本为空，请先去添加文本内容！', '警告', {
+    confirmButtonText: 'OK',
+    type: "error"
+  })
 }
 
 </script>
@@ -112,7 +142,7 @@ function onLookUp() {
         </el-row>
     </div>
     <div class="mt-4 border-width" style="border: 1px solid #ccc">
-        <Editor style="height: 400px; overflow-y: hidden; text-align: left;" v-model="editContent"
+        <Editor style="height: 500px; overflow-y: hidden; text-align: left;" v-model="editContent"
             :defaultConfig="editorConfig" mode="default" @onCreated="handleCreated" />
     </div>
 </template>

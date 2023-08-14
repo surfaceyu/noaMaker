@@ -2,9 +2,15 @@ package backend
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
+	"sync"
+	"time"
 
+	"github.com/faiface/beep"
+	"github.com/faiface/beep/mp3"
+	"github.com/faiface/beep/speaker"
 	"github.com/samber/lo"
 	"github.com/surfaceyu/edge-tts-go/edgeTTS"
 	"github.com/surfaceyu/noaMaker/backend/helper"
@@ -31,18 +37,26 @@ func (sp *SpeakerHandler) splitSpeaker(content string) (string, string) {
 	return speaker, annotation
 }
 
-func (sp *SpeakerHandler) SpeakSample(voice string, contents []string) {
-	args := edgeTTS.Args{
-		Voice:      helper.SpeakerShortName(voice),
-		WriteMedia: "./sample.mp3",
+func (sp *SpeakerHandler) SpeakSample() {
+	f, err := os.Open("./out/tmp.mp3")
+	if err != nil {
+		log.Fatal(err)
 	}
-	tts := edgeTTS.NewTTS(args)
-	for _, v := range contents {
-		speaker, text := sp.splitSpeaker(v)
-		fmt.Println(speaker, text)
-		tts.AddTextWithVoice(text, speaker)
+	defer f.Close()
+	streamer, format, err := mp3.Decode(f)
+	if err != nil {
+		log.Fatal(err)
 	}
-	tts.Speak()
+	defer streamer.Close()
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+	speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+		wg.Done()
+	})))
+
+	wg.Wait()
 }
 
 // 删除试听的mp3文件 "./sample.mp3"
