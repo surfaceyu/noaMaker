@@ -51,7 +51,7 @@ func TestSearchBook(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SearchBook(tt.args.name, tt.args.site)
+			got := SearchBook(tt.args.name, tt.args.site.SearchUrl)
 			if len(got) <= 0 {
 				t.Errorf("Search() = %v, want %v", got, tt.want)
 			} else {

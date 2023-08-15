@@ -130,10 +130,14 @@ const stepData = computed(() => {
     let result: Array<models.Book | models.Chapter | string> = []
     switch (props.data.checkStep) {
         case 0:
-            result = books.value.filter((_, i) => i < 3)
+            if (books.value) {                
+                result = books.value.filter((_, i) => i < 3)
+            }
             break;
         case 1:
-            result = chapters.value.filter((_, i) => i < 3)
+            if (chapters.value) {                
+                result = chapters.value.filter((_, i) => i < 3)
+            }
             break;
         case 2:
             // 字符串截取100位 result

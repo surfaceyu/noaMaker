@@ -17,19 +17,19 @@ func extractHref(uri string, reg string) string {
 	return ""
 }
 
-func SearchBook(name string, site models.BookSite) []models.Book {
+func SearchBook(name string, rule models.BookSiteUri) []models.Book {
 	var results []models.Book
-	// uri 将 site.SearchUrl.Uri 中的"{{key}}" 替换为name
-	replacedUri := strings.ReplaceAll(site.SearchUrl.Uri, "{{key}}", name)
+	// uri 将 rule.Uri 中的"{{key}}" 替换为name
+	replacedUri := strings.ReplaceAll(rule.Uri, "{{key}}", name)
 	// 使用colly爬取uri
 	c := colly.NewCollector()
 	// 设置回调函数，在爬取到指定的HTML元素时进行处理
-	c.OnHTML(site.SearchUrl.BookList, func(e *colly.HTMLElement) {
-		// 按照site.SearchUrl中的选择器 获取BookList Author BookName BookUri BookUri BookId
-		author := e.ChildText(site.SearchUrl.Author)
-		bookName := e.ChildText(site.SearchUrl.BookName)
-		bookUri := e.ChildAttr(site.SearchUrl.BookUri, "href")
-		bookId := extractHref(bookUri, site.SearchUrl.BookId)
+	c.OnHTML(rule.BookList, func(e *colly.HTMLElement) {
+		// 按照rule中的选择器 获取BookList Author BookName BookUri BookUri BookId
+		author := e.ChildText(rule.Author)
+		bookName := e.ChildText(rule.BookName)
+		bookUri := e.ChildAttr(rule.BookUri, "href")
+		bookId := extractHref(bookUri, rule.BookId)
 		book := models.Book{
 			Author:   author,
 			BookName: bookName,

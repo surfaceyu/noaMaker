@@ -23,7 +23,13 @@ func (b *BookHandler) SearchBook(name string, siteIndex int) []models.Book {
 	site := sites[siteIndex]
 	// 从 site中搜索书籍
 	// 返回书籍列表
-	return driver.SearchBook(name, site)
+	return driver.SearchBook(name, site.SearchUrl)
+}
+
+func (b *BookHandler) SearchBookByRule(name string, siteRule models.BookSiteUri) []models.Book {
+	// 从 site中搜索书籍
+	// 返回书籍列表
+	return driver.SearchBook(name, siteRule)
 }
 
 // 搜索书本章节列表
