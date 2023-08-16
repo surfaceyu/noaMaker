@@ -6,15 +6,15 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue'
 import { GetSites, AddSites, DelSites, EditSites } from '@wailsjs/go/backend/BookSitesHandler';
 import DialogSiteAdd from '@components/DialogSiteAdd.vue'
 import DialogSiteEdit from '@components/DialogSiteEdit.vue';
-import DialogSiteCheck from '@components/DialogSiteCheck.vue';
+// import DialogSiteCheck from '@components/DialogSiteCheck.vue';
 
 const search = ref('')
 const editIndex = ref(0)
 const dialogSiteEdit = ref<InstanceType<typeof DialogSiteEdit>>()
 const dialogFormAdd = ref<InstanceType<typeof DialogSiteAdd>>()
-const dialogSiteCheck = ref<InstanceType<typeof DialogSiteCheck>>()
+// const dialogSiteCheck = ref<InstanceType<typeof DialogSiteCheck>>()
 const tableData: Ref<Array<models.BookSite>> = ref([]);
-const tableRowData = ref<models.BookSite>();
+// const tableRowData = ref<models.BookSite>();
 
 const updateSitesData = async () => {
     tableData.value = await GetSites()
@@ -38,11 +38,11 @@ const handleEdit = async (index: number, row: models.BookSite) => {
     updateSitesData()
 }
 
-const handleCheck = async (index: number, row: models.BookSite) => {
-    editIndex.value = index;
-    tableRowData.value = row;
-    dialogSiteCheck.value!.isShow = true
-}
+// const handleCheck = async (index: number, row: models.BookSite) => {
+//     editIndex.value = index;
+//     tableRowData.value = row;
+//     dialogSiteCheck.value!.isShow = true
+// }
 
 const handleDelete = async (index: number, row: models.BookSite) => {
     await DelSites(row)
@@ -60,9 +60,9 @@ const doEdit = async (row: models.BookSite) => {
     updateSitesData();
 }
 
-const stepDisable = (row: models.BookSite) => {
-        return row.checkStep >= 3
-}
+// const stepDisable = (row: models.BookSite) => {
+//         return row.checkStep >= 3
+// }
 
 updateSitesData()
 </script>
@@ -96,8 +96,8 @@ updateSitesData()
                 </el-row>
             </template>
             <template #default="scope">
-                <el-button size="small" type="primary" :icon="Edit" :disabled="stepDisable(scope.row)"
-                    @click="handleCheck(scope.$index, scope.row)">测试</el-button>
+                <!-- <el-button size="small" type="primary" :icon="Edit" :disabled="stepDisable(scope.row)"
+                    @click="handleCheck(scope.$index, scope.row)">测试</el-button> -->
                 <el-button size="small" type="success" :icon="Check"
                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button :disabled="scope.$index == 0" size="small" type="danger" :icon="Delete"
@@ -107,7 +107,7 @@ updateSitesData()
     </el-table>
     <DialogSiteAdd :data="filterTableData" :submit="doAdd" ref="dialogFormAdd" />
     <DialogSiteEdit :data="filterTableData" :submit="doEdit" :index="editIndex" ref="dialogSiteEdit" />
-    <DialogSiteCheck :data="tableData[editIndex]" :index="editIndex" ref="dialogSiteCheck" />
+    <!-- <DialogSiteCheck :data="tableData[editIndex]" :index="editIndex" ref="dialogSiteCheck" /> -->
 </template>
 
 <style scoped>

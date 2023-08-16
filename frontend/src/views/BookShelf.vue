@@ -43,13 +43,13 @@ async function handleSearch(name: string, index: number) {
 async function handleSelectBook(book: models.Book) {
     ElMessage.info('章节搜索中......')
     chapters.value = []
-    chapters.value = await SearchChapter(book, bookSites.value[select.value])
+    chapters.value = await SearchChapter(book, bookSites.value[select.value].chapterUrl)
     ElMessage.success('章节搜索完成！')
 }
 
 async function handleSelectChapter(chapter: models.Chapter) {
     ElMessage.info('正文搜索中......')
-    content.value = await SearchContent(chapter, bookSites.value[select.value])
+    content.value = await SearchContent(chapter, bookSites.value[select.value].contentUrl)
     editContent.value = `${chapter.chapterName}${content.value.content}`
     ElMessage.success('正文搜索完成！')
 }

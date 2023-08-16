@@ -45,18 +45,18 @@ func SearchBook(name string, rule models.BookSiteUri) []models.Book {
 	return results
 }
 
-func SearchChapter(book models.Book, site models.BookSite) []models.Chapter {
+func SearchChapter(book models.Book, rule models.BookSiteChapterUri) []models.Chapter {
 	var results []models.Chapter
-	// uri 将 site.ChapterUrl.Uri 中的"{{bookId}}" 替换为 book.BookId
-	replacedUri := strings.ReplaceAll(site.ChapterUrl.Uri, "{{bookId}}", book.BookId)
+	// uri 将 rule.Uri 中的"{{bookId}}" 替换为 book.BookId
+	replacedUri := strings.ReplaceAll(rule.Uri, "{{bookId}}", book.BookId)
 	// 使用colly爬取uri
 	c := colly.NewCollector()
 	// 设置回调函数，在爬取到指定的HTML元素时进行处理
-	c.OnHTML(site.ChapterUrl.ChapterList, func(e *colly.HTMLElement) {
-		// 按照site.ChapterUrl中的选择器 获取 ChapterName ChapterId
-		chapterName := e.ChildText(site.ChapterUrl.ChapterName)
-		bookUri := e.ChildAttr(site.ChapterUrl.ChapterUri, "href")
-		chapterId := extractHref(bookUri, site.ChapterUrl.ChapterId)
+	c.OnHTML(rule.ChapterList, func(e *colly.HTMLElement) {
+		// 按照rule中的选择器 获取 ChapterName ChapterId
+		chapterName := e.ChildText(rule.ChapterName)
+		bookUri := e.ChildAttr(rule.ChapterUri, "href")
+		chapterId := extractHref(bookUri, rule.ChapterId)
 		chapter := models.Chapter{
 			BookId:      book.BookId,
 			ChapterId:   chapterId,
@@ -72,15 +72,15 @@ func SearchChapter(book models.Book, site models.BookSite) []models.Chapter {
 	return results
 }
 
-func SearchContent(chapter models.Chapter, site models.BookSite) models.Content {
+func SearchContent(chapter models.Chapter, rule models.BookSiteContentUri) models.Content {
 	var results models.Content
-	// uri 将 site.ContentUrl.Uri 中的"{{bookId}}" 替换为 chapter.BookId
-	replacedUri := strings.ReplaceAll(site.ContentUrl.Uri, "{{bookId}}", chapter.BookId)
+	// uri 将 rule.Uri 中的"{{bookId}}" 替换为 chapter.BookId
+	replacedUri := strings.ReplaceAll(rule.Uri, "{{bookId}}", chapter.BookId)
 	replacedUri = strings.ReplaceAll(replacedUri, "{{chapterId}}", chapter.ChapterId)
 	// 使用colly爬取uri
 	c := colly.NewCollector()
 	// 设置回调函数，在爬取到指定的HTML元素时进行处理
-	c.OnHTML(site.ContentUrl.Content, func(e *colly.HTMLElement) {
+	c.OnHTML(rule.Content, func(e *colly.HTMLElement) {
 		book := models.Content{
 			BookId:    chapter.BookId,
 			ChapterId: chapter.ChapterId,

@@ -33,11 +33,11 @@ func (b *BookHandler) SearchBookByRule(name string, siteRule models.BookSiteUri)
 }
 
 // 搜索书本章节列表
-func (b *BookHandler) SearchChapter(book models.Book, site models.BookSite) []models.Chapter {
-	return driver.SearchChapter(book, site)
+func (b *BookHandler) SearchChapter(book models.Book, siteRule models.BookSiteChapterUri) []models.Chapter {
+	return driver.SearchChapter(book, siteRule)
 }
 
 // 搜索书本章节内容
-func (b *BookHandler) SearchContent(chapter models.Chapter, site models.BookSite) models.Content {
-	return driver.SearchContent(chapter, site)
+func (b *BookHandler) SearchContent(chapter models.Chapter, siteRule models.BookSiteContentUri) models.Content {
+	return driver.SearchContent(chapter, siteRule)
 }

@@ -6,6 +6,6 @@ export function SearchBook(arg1:string,arg2:number):Promise<Array<models.Book>>;
 
 export function SearchBookByRule(arg1:string,arg2:models.BookSiteUri):Promise<Array<models.Book>>;
 
-export function SearchChapter(arg1:models.Book,arg2:models.BookSite):Promise<Array<models.Chapter>>;
+export function SearchChapter(arg1:models.Book,arg2:models.BookSiteChapterUri):Promise<Array<models.Chapter>>;
 
-export function SearchContent(arg1:models.Chapter,arg2:models.BookSite):Promise<models.Content>;
+export function SearchContent(arg1:models.Chapter,arg2:models.BookSiteContentUri):Promise<models.Content>;

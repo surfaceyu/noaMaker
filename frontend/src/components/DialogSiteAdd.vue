@@ -75,12 +75,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
             <el-form-item prop="uri" label="网址">
                 <el-input v-model="form.uri" />
             </el-form-item>
-            <el-divider />
-            <FormBook :data=form.searchUrl />
-            <el-divider />
-            <FormChapter :data=form.chapterUrl />
-            <el-divider />
-            <FormContent :data=form.contentUrl />
         </el-form>
         <template #footer>
             <span class="dialog-footer">

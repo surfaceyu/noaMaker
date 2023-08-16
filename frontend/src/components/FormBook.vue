@@ -1,9 +1,10 @@
   
 <script setup lang="ts">
+import _ from 'lodash'
+import { onUpdated, ref } from 'vue';
 import { models } from '@wailsjs/go/models';
 import { Search } from '@element-plus/icons-vue'
-import { SearchBookByRule } from '@wailsjs/go/backend/BookHandler'
-import { ref } from 'vue';
+import { SearchBookByRule } from '@backend/BookHandler'
 
 const form = defineProps({
     data: {
@@ -20,8 +21,10 @@ const book = ref<models.Book>()
 async function handleSearch() {
     // 检测搜索功能 默认搜索关于剑仙的小说
     const books = await SearchBookByRule("剑仙", form.data)
-    if (books.length > 0) {
+    if (books && books.length > 0) {
         book.value = books[0]
+    } else {
+        book.value = undefined
     }
 }
 
@@ -32,6 +35,10 @@ function getProperty(obj: any, key: string) {
 function attrIsSuccess(attr: string): boolean {
     return book.value ? getProperty(book.value, attr) : false
 }
+
+onUpdated(_.debounce(() => {
+    handleSearch()
+}, 300))
 </script>
 
 <template>

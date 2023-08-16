@@ -45,7 +45,7 @@ async function handleChapter() {
         }
     }
     // 搜索book的章节列表
-    const data = await SearchChapter(book, props.data)
+    const data = await SearchChapter(book, props.data.chapterUrl)
     if (!data) {
         ElMessage.error("没有搜索到章节，请检查搜索规则！")
         return;
@@ -66,7 +66,7 @@ async function handleContent() {
             return;
         }
     }
-    const data = await SearchContent(chapters.value[0], props.data)
+    const data = await SearchContent(chapters.value[0], props.data.contentUrl)
     if (!data) {
         ElMessage.error("没有搜索到小说内容，请检查搜索规则！")
         return;

@@ -86,7 +86,7 @@ func TestSearchChapter(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SearchChapter(tt.args.book, tt.args.site)
+			got := SearchChapter(tt.args.book, tt.args.site.ChapterUrl)
 			if len(got) <= 0 {
 				t.Errorf("SearchChapter() = %v, want %v", got, tt.want)
 			} else {
@@ -121,7 +121,7 @@ func TestSearchContent(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SearchContent(tt.args.chapter, tt.args.site)
+			got := SearchContent(tt.args.chapter, tt.args.site.ContentUrl)
 			t.Logf("SearchContent() = %v", got)
 		})
 	}

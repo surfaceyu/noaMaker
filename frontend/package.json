@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "element-plus": "^2.3.7",
+    "lodash": "^4.17.21",
     "vue": "^3.2.37",
     "vue-router": "^4.2.4"
   },

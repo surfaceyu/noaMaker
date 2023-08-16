@@ -84,9 +84,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
             <el-divider />
             <FormBook :data=form.searchUrl />
             <el-divider />
-            <FormChapter :data=form.chapterUrl />
+            <FormChapter :data=form />
             <el-divider />
-            <FormContent :data=form.contentUrl />
+            <FormContent :data=form />
         </el-form>
         <template #footer>
             <span class="dialog-footer">

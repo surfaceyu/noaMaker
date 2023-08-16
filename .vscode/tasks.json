@@ -122,51 +122,6 @@
         "module",
       ],
     },
-    {
-      "label": "npm install",
-      "type": "npm",
-      "script": "install",
-      "options": {
-        "cwd": "${workspaceFolder}/frontend"
-      },
-      "presentation": {
-        "clear": true,
-        "panel": "shared",
-        "showReuseMessage": false
-      },
-      "problemMatcher": [],
-    },
-    {
-      "label": "npm run build",
-      "type": "npm",
-      "script": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/frontend"
-      },
-      "presentation": {
-        "clear": true,
-        "panel": "shared",
-        "showReuseMessage": false
-      },
-      "problemMatcher": [],
-      "dependsOn": ["wails generate"]
-    },
-    {
-      "label": "dlv server start",
-      "type": "shell",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "command": "dlv",
-      "args": [
-        "--headless=true",
-        "--listen=:2345",
-        "--api-version=2",
-        "exec",
-        "${workspaceFolder}/build/bin/noaMaker.exe"
-      ],
-      "isBackground": true
-    },
   ]
 }
   
