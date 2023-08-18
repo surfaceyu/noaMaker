@@ -1,30 +1,21 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { type Ref } from 'vue';
+import { Check, Delete } from '@element-plus/icons-vue'
 import { models } from '@wailsjs/go/models';
-import { Edit, Check, Delete } from '@element-plus/icons-vue'
-import { GetSites, AddSites, DelSites, EditSites } from '@wailsjs/go/backend/BookSitesHandler';
+import { AddSites, DelSites, EditSites } from '@backend/BookSitesHandler';
 import DialogSiteAdd from '@components/DialogSiteAdd.vue'
 import DialogSiteEdit from '@components/DialogSiteEdit.vue';
-// import DialogSiteCheck from '@components/DialogSiteCheck.vue';
+import { bookSiteRules, editRuleRow, useRule } from "@scripts/store";
 
 const search = ref('')
-const editIndex = ref(0)
 const dialogSiteEdit = ref<InstanceType<typeof DialogSiteEdit>>()
 const dialogFormAdd = ref<InstanceType<typeof DialogSiteAdd>>()
-// const dialogSiteCheck = ref<InstanceType<typeof DialogSiteCheck>>()
-const tableData: Ref<Array<models.BookSite>> = ref([]);
-// const tableRowData = ref<models.BookSite>();
-
-const updateSitesData = async () => {
-    tableData.value = await GetSites()
-}
 
 const siteStepType = ["danger", "warning", "warning"];
 const siteStepText = ["搜索", "章节", "内容", "完成"]
 
 const filterTableData = computed(() => {
-    return tableData.value.filter(data =>
+    return bookSiteRules.value.filter(data =>
         !search.value || data.name.toLowerCase().includes(search.value.toLowerCase()))
 })
 
@@ -34,37 +25,25 @@ const handleAdd = async () => {
 
 const handleEdit = async (index: number, row: models.BookSite) => {
     dialogSiteEdit.value!.isShow = true;
-    editIndex.value = index;
-    updateSitesData()
+    editRuleRow.value = row;
 }
-
-// const handleCheck = async (index: number, row: models.BookSite) => {
-//     editIndex.value = index;
-//     tableRowData.value = row;
-//     dialogSiteCheck.value!.isShow = true
-// }
 
 const handleDelete = async (index: number, row: models.BookSite) => {
     await DelSites(row)
-    updateSitesData()
+    useRule()
 }
 
 const doAdd = async (site: models.BookSite) => {
     await AddSites(site)
-    updateSitesData()
+    useRule()
 }
 
 const doEdit = async (row: models.BookSite) => {
-    row.checkStep = 0;
     await EditSites(row);
-    updateSitesData();
+    useRule();
 }
 
-// const stepDisable = (row: models.BookSite) => {
-//         return row.checkStep >= 3
-// }
-
-updateSitesData()
+useRule()
 </script>
 
 <template>
@@ -77,9 +56,7 @@ updateSitesData()
         <el-table-column label="网址" prop="uri" width="300" />
         <el-table-column label="状态">
             <template #default="scope">
-                <el-tag
-                    :type="siteStepType[scope.row.checkStep] || 'success'"
-                    disable-transitions>
+                <el-tag :type="siteStepType[scope.row.checkStep] || 'success'" disable-transitions>
                     {{ siteStepText[scope.row.checkStep] }}
                 </el-tag>
             </template>
@@ -96,8 +73,6 @@ updateSitesData()
                 </el-row>
             </template>
             <template #default="scope">
-                <!-- <el-button size="small" type="primary" :icon="Edit" :disabled="stepDisable(scope.row)"
-                    @click="handleCheck(scope.$index, scope.row)">测试</el-button> -->
                 <el-button size="small" type="success" :icon="Check"
                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button :disabled="scope.$index == 0" size="small" type="danger" :icon="Delete"
@@ -106,8 +81,7 @@ updateSitesData()
         </el-table-column>
     </el-table>
     <DialogSiteAdd :data="filterTableData" :submit="doAdd" ref="dialogFormAdd" />
-    <DialogSiteEdit :data="filterTableData" :submit="doEdit" :index="editIndex" ref="dialogSiteEdit" />
-    <!-- <DialogSiteCheck :data="tableData[editIndex]" :index="editIndex" ref="dialogSiteCheck" /> -->
+    <DialogSiteEdit :submit="doEdit" ref="dialogSiteEdit" />
 </template>
 
 <style scoped>

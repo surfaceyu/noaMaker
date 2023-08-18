@@ -1,10 +1,14 @@
   
 <script setup lang="ts">
+import _ from 'lodash';
 import { models } from '@wailsjs/go/models';
-import { Document, Search } from '@element-plus/icons-vue'
-import { onUpdated, ref } from 'vue';
-import _, { isEmpty } from 'lodash';
+import { onUpdated} from 'vue';
 import { SearchBookByRule, SearchChapter, SearchContent } from '@backend/BookHandler';
+import { editRule } from "@scripts/store";
+
+const bookData = editRule.bookData
+const chapterData = editRule.chapterData
+const contentData = editRule.contentData
 
 const form = defineProps({
     data: {
@@ -13,8 +17,6 @@ const form = defineProps({
     },
 })
 
-const contentData = ref<models.Content>()
-
 async function handleSearch() {
     contentData.value = undefined;
     form.data.checkStep = 0;
@@ -22,12 +24,15 @@ async function handleSearch() {
     const books = await SearchBookByRule("剑仙", form.data.searchUrl)
     if (books && books.length > 0) {
         form.data.checkStep = 1;
+        bookData.value = books[0];
+
         const c = await SearchChapter(books[0], form.data.chapterUrl)
-        
-        _.filter(c, (_, index) => index <= 10).forEach(async v => {
+        _.filter(c, (_, index) => index <= 20).forEach(async v => {
             if (contentData.value) {
                 return
             }
+            chapterData.value = v
+
             form.data.checkStep = 2;
             const result = await SearchContent(v, form.data.contentUrl)
             if (!_.isEmpty(result?.content)) {
@@ -50,7 +55,7 @@ onUpdated(_.debounce(() => {
     <el-form-item prop="contentUrlBookId" label="搜索规则">
         <el-input v-model="form.data.contentUrl.uri">
             <template #append>
-                <el-button :icon="Search" @click="handleSearch" />
+                <el-button icon="Search" @click="handleSearch" />
             </template>
         </el-input>
     </el-form-item>

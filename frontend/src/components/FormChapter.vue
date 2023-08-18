@@ -1,11 +1,11 @@
   
 <script setup lang="ts">
-import { models } from '@wailsjs/go/models';
-import { Files } from '@element-plus/icons-vue'
-import { Search } from '@element-plus/icons-vue'
-import { onUpdated, ref } from 'vue';
 import _ from 'lodash';
+import { models } from '@wailsjs/go/models';
 import { SearchBookByRule, SearchChapter } from '@backend/BookHandler';
+import { editRule } from "@scripts/store";
+
+const chapterData = editRule.chapterData
 
 const form = defineProps({
     data: {
@@ -14,29 +14,20 @@ const form = defineProps({
     },
 })
 
-const chapter = ref<models.Chapter>()
 /**
  * 搜索书籍
  */
  async function handleSearch() {
-    chapter.value = undefined
+    chapterData.value = undefined
 
     const books = await SearchBookByRule("剑仙", form.data.searchUrl)
     if (books && books.length > 0) {
         const c = await SearchChapter(books[0], form.data.chapterUrl)
         if (c && c.length > 0) {
-            chapter.value = c[0]
+            chapterData.value = c[0]
         }
     }
 }
-
-function attrIsSuccess(attr: string): boolean {
-    return _.get(chapter.value, attr)
-}
-
-onUpdated(_.debounce(() => {
-    handleSearch()
-}, 300))
 </script>
 
 <template>
@@ -44,15 +35,15 @@ onUpdated(_.debounce(() => {
     <el-form-item prop="chapterUrlUri" label="搜索规则">
         <el-input v-model="form.data.chapterUrl.uri" >
             <template #append>
-                <el-button :icon="Search" @click="handleSearch" />
+                <el-button icon="Search" @click="handleSearch" />
             </template>
         </el-input>
     </el-form-item>
     <el-form-item prop="chapterUrlList" label="列表规则">
         <el-input v-model="form.data.chapterUrl.chapterList">
             <template #append>
-                <el-tooltip effect="dark" :content="chapter?.chapterName" placement="top-start">
-                    <el-icon class="el-icon-success" v-if="attrIsSuccess('chapterName')">
+                <el-tooltip effect="dark" :content="chapterData?.chapterName" placement="top-start">
+                    <el-icon class="el-icon-success" v-if="_.get(chapterData,'chapterName')">
                         <SuccessFilled />
                     </el-icon>
                     <el-icon class="el-icon-failed" v-else>
@@ -65,8 +56,8 @@ onUpdated(_.debounce(() => {
     <el-form-item prop="chapterUrlBookName" label="章节名称规则">
         <el-input v-model="form.data.chapterUrl.chapterName">
             <template #append>
-                <el-tooltip effect="dark" :content="chapter?.chapterName" placement="top-start">
-                    <el-icon class="el-icon-success" v-if="attrIsSuccess('chapterName')">
+                <el-tooltip effect="dark" :content="chapterData?.chapterName" placement="top-start">
+                    <el-icon class="el-icon-success" v-if="_.get(chapterData,'chapterName')">
                         <SuccessFilled />
                     </el-icon>
                     <el-icon class="el-icon-failed" v-else>
@@ -79,8 +70,8 @@ onUpdated(_.debounce(() => {
     <el-form-item prop="chapterUrlBookId" label="章节ID规则">
         <el-input v-model="form.data.chapterUrl.chapterId">
             <template #append>
-                <el-tooltip effect="dark" :content="chapter?.chapterId" placement="top-start">
-                    <el-icon class="el-icon-success" v-if="attrIsSuccess('chapterId')">
+                <el-tooltip effect="dark" :content="chapterData?.chapterId" placement="top-start">
+                    <el-icon class="el-icon-success" v-if="_.get(chapterData,'chapterId')">
                         <SuccessFilled />
                     </el-icon>
                     <el-icon class="el-icon-failed" v-else>
@@ -93,8 +84,8 @@ onUpdated(_.debounce(() => {
     <el-form-item prop="chapterUrlBookUri" label="章节内容规则">
         <el-input v-model="form.data.chapterUrl.chapterUrl">
             <template #append>
-                <el-tooltip effect="dark" :content="chapter?.chapterId" placement="top-start">
-                    <el-icon class="el-icon-success" v-if="attrIsSuccess('chapterId')">
+                <el-tooltip effect="dark" :content="chapterData?.chapterId" placement="top-start">
+                    <el-icon class="el-icon-success" v-if="_.get(chapterData,'chapterId')">
                         <SuccessFilled />
                     </el-icon>
                     <el-icon class="el-icon-failed" v-else>

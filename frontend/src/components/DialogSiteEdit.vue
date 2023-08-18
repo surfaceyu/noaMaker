@@ -6,33 +6,24 @@ import { House } from '@element-plus/icons-vue'
 import FormChapter from '@components/FormChapter.vue'
 import FormBook from '@components/FormBook.vue';
 import FormContent from '@components/FormContent.vue'
+import { bookSiteRules, editRuleRow } from "@scripts/store";
 
 const dialogArrayData = defineProps({
-    data: {
-        type: Array<models.BookSite>,
-        required: true,
-    },
-    index: {
-        type: Number,
-        required: true,
-    },
     submit: {
         type: Function,
         required: true,
     },
 })
 
-// const dialogFormVisible: Ref<Boolean> | undefined = inject('dialogFormEditVisible')
 const isShow = ref(false)
 const ruleFormRef = ref<FormInstance>()
-const labelPosition = ref('right')
 
 defineExpose({
     isShow
 })
 
 const form = computed(() => {
-    return dialogArrayData.data[dialogArrayData.index] || reactive(new models.BookSite({
+    return editRuleRow.value || reactive(new models.BookSite({
     name: '',
     uri: '',
     searchUrl: new models.BookSiteUri(),
@@ -43,22 +34,20 @@ const form = computed(() => {
 
 const nameValidator = (rule: any, value: string, callback: (arg0: Error | undefined) => void) => {
     if (value.length < 2) {
-        return callback(new Error('长度不能小于2'));
+        return callback(new Error('长度不能小于2！'));
     }
-    if (dialogArrayData.data.find(book => book.name == value)) {
+    if (bookSiteRules.value.find(book => book.name == value)) {
         return callback(undefined); 
     }
-    callback(new Error(`源网址 <${value}> 没有记录,请先添加`));
+    callback(new Error(`源网址 <${value}> 没有记录,请先去添加！`));
 }
 
 const inputRules = reactive<FormRules<typeof form>>({
     name: [{ validator: nameValidator, trigger: 'blur' }],
-    // "searchUrl.uri": [{ validator: nameValidator, trigger: 'blur' }],
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.validate((valid) => {
+    formEl?.validate((valid) => {
         if (valid) {
             isShow.value = false;
             dialogArrayData.submit(form.value)
@@ -68,12 +57,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
         }
     })
 }
-
 </script>
 
 <template>
     <el-dialog v-model="isShow" title="编辑书源">
-        <el-form ref="ruleFormRef" :model="form" :rules="inputRules" label-width="auto" :label-position="labelPosition">
+        <el-form ref="ruleFormRef" :model="form" :rules="inputRules" label-width="auto" label-position="right">
             <el-text> <el-icon> <House /> </el-icon>源站</el-text>
             <el-form-item prop="name" label="名称">
                 <el-input v-model="form.name" />
