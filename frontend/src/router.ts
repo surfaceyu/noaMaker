@@ -5,7 +5,6 @@ import {
     Notebook,
     VideoPause,
   } from '@element-plus/icons-vue'
-import { defineAsyncComponent } from 'vue'
   
 export const routes = [
     { path: '/', icon: Management, component: () => import('@views/BookShelf.vue') },
